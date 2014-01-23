@@ -37,7 +37,7 @@ class Handler
         }
         
         // Check whether the directory is writeable
-        if (!is_writable($rootDirectory)) {
+        if (!\is_writable($rootDirectory)) {
             // Directory is not writeable
             
             // Throw an exception
@@ -238,7 +238,7 @@ class Handler
         // Define absolute path parts
         $absolutes = array();
         
-        // Iterate over parts
+        // Iterate parts
         foreach ($parts as $part) {
             
             // Check whether part is a single dot
