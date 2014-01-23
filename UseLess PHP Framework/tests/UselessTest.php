@@ -30,19 +30,6 @@ class UselessTest extends PHPUnit_Framework_TestCase
     }
     
     /**
-     * Test teardown
-     */
-    public function tearDown() {
-        
-        // Destroy instance
-        $this->instance = null;
-        
-        // Parent teardown
-        parent::tearDown();
-        
-    }
-    
-    /**
      * Run the framework
      */
     public function testRun()
