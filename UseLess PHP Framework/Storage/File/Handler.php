@@ -183,7 +183,7 @@ class Handler
         }
         
         // Return root directory
-        return $this->root . DIRECTORY_SEPARATOR;
+        return $this->root . \DIRECTORY_SEPARATOR;
         
     }
     
@@ -230,10 +230,12 @@ class Handler
         
         // Replace forward and backward slashes with the appropriate
         // directory separator
-        $path = \str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+        $path = \str_replace(array('/', '\\'), \DIRECTORY_SEPARATOR, $path);
         
         // Break file path in parts, remove parts without length
-        $parts = \array_filter(\explode(DIRECTORY_SEPARATOR, $path), 'strlen');
+        $parts = \array_filter(
+            \explode(\DIRECTORY_SEPARATOR, $path), 'strlen'
+        );
         
         // Define absolute path parts
         $absolutes = array();
@@ -269,7 +271,7 @@ class Handler
         
         // Prepend root directory and complete filtered relatives to absolute
         // path
-        $filePath = \implode(DIRECTORY_SEPARATOR, $absolutes);
+        $filePath = \implode(\DIRECTORY_SEPARATOR, $absolutes);
     
         // Return path
         return $filePath;
