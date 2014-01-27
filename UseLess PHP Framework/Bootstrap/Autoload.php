@@ -72,7 +72,7 @@ class Autoload
     }
     
     /**
-     * Include class files. This is done by backspace notation.
+     * Include class files. This is done by backslash notation.
      * 
      * @param string $classname Class to load
      * 

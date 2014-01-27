@@ -4,8 +4,8 @@
 namespace ULPFTest\Bootstrap;
 
 // Includes
-require_once __DIR__ . '/../../Bootstrap/Autoload.php';
-require_once __DIR__ . '/../../Bootstrap/Exception.php';
+require_once __DIR__ . '/../../../Bootstrap/Autoload.php';
+require_once __DIR__ . '/../../../Bootstrap/Exception.php';
 
 /**
  * Autoload test class
@@ -17,6 +17,29 @@ class AutoloadTest extends \PHPUnit_Framework_TestCase
 {
     
     /**
+     * Autoload instance
+     * 
+     * @var \ULPF\Bootstrap\Autoload
+     */
+    protected $instance = null;
+    
+    /**
+     * Unregister autoloader on teardown
+     */
+    public function tearDown() {
+
+        // Check whether autoloader is set
+        if (isset($this->instance)) {
+            // Autoloader is set
+            
+            // Unregister autoload
+            $this->instance->__destruct();
+            
+        }
+        
+    }
+    
+    /**
      * Test class loading from the root directory
      * 
      * @covers ::__construct
@@ -26,7 +49,7 @@ class AutoloadTest extends \PHPUnit_Framework_TestCase
     {
         
         // Create autoload instance
-        $autoload = new \ULPF\Bootstrap\Autoload(__DIR__);
+        $this->instance = new \ULPF\Bootstrap\Autoload(__DIR__);
         
         // Get the testclass
         $class = new \AutoloadTestClass();
@@ -35,9 +58,7 @@ class AutoloadTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(
             'AutoloadTestClass', $class, 'Autoload did not load the test class'
         );
-        
-        // Make sure autoloader gets unset
-        $autoload->__destruct();
+
     }
     
     /**
@@ -51,7 +72,7 @@ class AutoloadTest extends \PHPUnit_Framework_TestCase
     {
         
         // Create autoload instance
-        new \ULPF\Bootstrap\Autoload(__DIR__);
+        $this->instance = new \ULPF\Bootstrap\Autoload(__DIR__);
         
         // Get not existing class
         new \ClassDoesNotExist();
