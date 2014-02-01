@@ -65,8 +65,6 @@ class AutoloadTest extends \PHPUnit_Framework_TestCase
      * Try to load a not existing class
      * 
      * @covers ::__construct
-     * @expectedException \ULPF\Bootstrap\Exception
-     * @expectedExceptionMessage Autoload File not found: 
      */
     public function testAutoloadNotExistingClass()
     {
@@ -75,7 +73,7 @@ class AutoloadTest extends \PHPUnit_Framework_TestCase
         $this->instance = new \ULPF\Bootstrap\Autoload(__DIR__);
         
         // Get not existing class
-        new \ClassDoesNotExist();
+        $this->assertFalse(class_exists('\ClassDoesNotExist'));
         
     }
     

@@ -32,6 +32,7 @@ class Autoload
      *  loaded from
      * 
      * @return void
+     * @throws Exception
      */
     public function __construct($rootDirectory)
     {
@@ -72,7 +73,7 @@ class Autoload
     }
     
     /**
-     * Include class files. This is done by backslash notation.
+     * Include class file. This is done by backslash notation
      * 
      * @param string $classname Class to load
      * 
@@ -84,21 +85,22 @@ class Autoload
     protected function includeFile($classname)
     {
         
-        // Create the class path
+        // Create class path
         $classPath = $this->rootDirectory . \DIRECTORY_SEPARATOR .
             \str_replace(
                 '\\', \DIRECTORY_SEPARATOR, $classname
             ) . '.php';
         
-        // Load the file when it exists
+        // Check whether the class file exists
         if (!\file_exists($classPath)) {
+            // Class file does not exist
             
-            // Return false
-            throw new Exception('Autoload File not found: ' . $classPath);
+            // Return to skip to next registered autoloader
+            return false;
             
         }
         
-        // Include the file
+        // Include class file
         include_once $classPath;
         
     }
