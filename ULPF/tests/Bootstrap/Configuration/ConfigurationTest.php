@@ -54,7 +54,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * Retrieve a value from the configuration
      * 
-     * @covers ::__get
+     * @covers ::get
      */
     public function testGetConfigurationValue()
     {
@@ -64,7 +64,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         
         // Property foo should be set
         $this->assertEquals(
-            'bar', $config->foo, 'Configuration property \'foo\' not set'
+            'bar', $config->get('foo'), 'Configuration property \'foo\' not set'
         );
         
     }
@@ -72,7 +72,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * Retrieve a not existing value from the configuration
      * 
-     * @covers ::__get
+     * @covers ::get
      */
     public function testGetUnavailableConfigurationValue()
     {
@@ -82,7 +82,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         
         // Property bar should not be set
         $this->assertNull(
-            $config->bar, 'Configuration property \'foo\' not set'
+            $config->get('bar'), 'Configuration property \'foo\' not set'
         );
         
     }

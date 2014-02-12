@@ -48,7 +48,7 @@ class Configuration
      * @param string $name Property name to return
      * @return mixed
      */
-    public function __get($name)
+    public function get($name)
     {
         
         // Make sure given property name exists
