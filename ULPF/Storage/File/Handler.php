@@ -96,6 +96,64 @@ class Handler
     }
     
     /**
+     * Get the contents of the given file
+     * 
+     * @param string $fileName File name
+     * @return string Retreived file contents
+     */
+    public function getFileContents($fileName)
+    {
+        
+        // Get file path
+        $file = $this->getRootDirectory()
+            . $this->canonicalizePath($fileName);
+        
+        // Check whether file exists
+        if (!\file_exists($file)) {
+            // File does not exist
+            
+            // Throw an exception
+            throw new Exception('File does not exist');
+            
+        }
+        
+        // Get file contents
+        $contents = \file_get_contents($file);
+        
+        // Return content
+        return $contents;
+        
+    }
+    
+    /**
+     * Check a file for existence
+     * 
+     * @param string $fileName File to check
+     * @return boolean
+     */
+    public function fileExists($fileName)
+    {
+        
+        // Get file path
+        $file = $this->getRootDirectory()
+            . $this->canonicalizePath($fileName);
+        
+        // Check whether file exists
+        if (\file_exists($file)) {
+            
+            // File exists
+            return true;
+            
+        } else {
+            
+            // File does not exist
+            return false;
+            
+        }
+        
+    }
+    
+    /**
      * Remove a file
      * 
      * @see http://stackoverflow.com/questions/1407338/a-recursive-remove-directory-function-for-php

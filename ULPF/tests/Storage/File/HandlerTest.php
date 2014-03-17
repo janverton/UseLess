@@ -373,4 +373,69 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         
     }
     
+    /**
+     * Test for file existance
+     * 
+     * @covers ::fileExists
+     */
+    public function testFileExists()
+    {
+        
+        // Set root directory
+        $this->instance->setRootDirectory('/tmp');
+        
+        // Create a file
+        $this->instance->saveContents('I exist', 'exists.txt');
+        
+        // Assert file exists
+        $this->assertTrue($this->instance->fileExists('exists.txt'));
+        
+        // Remove file
+        $this->instance->remove('exists.txt');
+        
+        // File does not exist
+        $this->assertFalse($this->instance->fileExists('exists.txt'));
+        
+    }
+    
+    /**
+     * Get contents of a file located in this file storage component
+     * 
+     * @covers ::getFileContents
+     */
+    public function testGetFileContents()
+    {
+        
+        // Set root directory
+        $this->instance->setRootDirectory('/tmp');
+        
+        // Create a file
+        $this->instance->saveContents('Get my contents', 'exists.txt');
+        
+        // Assert content is returned
+        $this->assertEquals(
+            'Get my contents',
+            $this->instance->getFileContents('exists.txt')
+        );
+        
+    }
+    
+    /**
+     * Try to get contents from a not existing file
+     * 
+     * @covers ::getFileContents
+     * @expectedException \ULPF\Storage\File\Exception
+     * @expectedExceptionMessage File does not exist
+     */
+    public function testGetFileContentsFromNotExistingFile()
+    {
+        
+        // Set root directory
+        $this->instance->setRootDirectory('/tmp');
+        
+        // Get contents of a not existing file
+        $this->instance->getFileContents('idonotexists.txt');
+        
+    }
+    
 }

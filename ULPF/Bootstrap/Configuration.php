@@ -7,7 +7,7 @@ namespace ULPF\Bootstrap;
  * Configuration class
  * 
  * The Configuration class takes a file path to the .ini and extracts the 
- * settings. Values can be retrieved by magic getter properties.
+ * settings. Values can be retrieved by the get method.
  * 
  */
 class Configuration
