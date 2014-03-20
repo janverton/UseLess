@@ -66,8 +66,7 @@ class Handler
     {
         
         // Get file path
-        $file = $this->getRootDirectory()
-            . $this->canonicalizePath($fileName);
+        $file = $this->getRealFilePath($fileName);
         
         // Make sure the directory exists
         $this->assertDirectory($file);
@@ -100,13 +99,13 @@ class Handler
      * 
      * @param string $fileName File name
      * @return string Retreived file contents
+     * @throws Exception
      */
     public function getFileContents($fileName)
     {
         
         // Get file path
-        $file = $this->getRootDirectory()
-            . $this->canonicalizePath($fileName);
+        $file = $this->getRealFilePath($fileName);
         
         // Check whether file exists
         if (!\file_exists($file)) {
@@ -135,8 +134,7 @@ class Handler
     {
         
         // Get file path
-        $file = $this->getRootDirectory()
-            . $this->canonicalizePath($fileName);
+        $file = $this->getRealFilePath($fileName);
         
         // Check whether file exists
         if (\file_exists($file)) {
@@ -165,7 +163,7 @@ class Handler
     {
         
         // Get file path
-        $file = $this->getRootDirectory() . $this->canonicalizePath($fileName);
+        $file = $this->getRealFilePath($fileName);
         
         // Check whether file exists
         if (!\file_exists($file)) {
@@ -219,6 +217,23 @@ class Handler
         
         // Implement fluent interface
         return $this;
+        
+    }
+    
+    /**
+     * Get real/absolute path for the given filename
+     * 
+     * @param string $fileName File to get absolute path for
+     * @return string
+     */
+    public function getRealFilePath($fileName)
+    {
+        
+        // Get file path
+        $file = $this->getRootDirectory() . $this->canonicalizePath($fileName);
+        
+        // Return file path
+        return $file;
         
     }
     
