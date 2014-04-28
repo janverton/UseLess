@@ -95,6 +95,37 @@ class Handler
     }
     
     /**
+     * Open file handle
+     * 
+     * @param string $fileName File name to open
+     * @param string $mode     File operation mode (r|w|w+ etc)
+     * @return resource File handle resource
+     * @throws Exception
+     */
+    public function getFileHandle($fileName, $mode = 'r')
+    {
+        
+        // Get file path
+        $file = $this->getRealFilePath($fileName);
+        
+        // Check whether file exists
+        if (!\file_exists($file)) {
+            // File does not exist
+            
+            // Throw an exception
+            throw new Exception('File does not exist');
+            
+        }
+        
+        // Open file handle
+        $fileHandle = \fopen($fileName, $mode);
+        
+        // Return file handle
+        return $fileHandle;
+        
+    }
+    
+    /**
      * Get the contents of the given file
      * 
      * @param string $fileName File name
