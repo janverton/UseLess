@@ -118,7 +118,7 @@ class Handler
         }
         
         // Open file handle
-        $fileHandle = \fopen($fileName, $mode);
+        $fileHandle = \fopen($file, $mode);
         
         // Return file handle
         return $fileHandle;
