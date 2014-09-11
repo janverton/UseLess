@@ -83,6 +83,37 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * Create a directory
+     * 
+     * @covers ::createDirectory
+     */
+    public function testCreateDirectory()
+    {
+        
+        // Define test directory name
+        $dirName = 'testdir';
+        
+        // Set directory to /tmp
+        $this->instance->setRootDirectory('/tmp');
+        
+        // Clear test directory
+        if ($this->instance->fileExists($dirName)) {
+            
+            // Remove created directory
+            $this->instance->remove($dirName);
+        
+            
+        }
+        
+        // Create new directory
+        $this->instance->createDirectory($dirName);
+        
+        // Assert directory is created
+        $this->assertTrue($this->instance->fileExists($dirName));
+        
+    }
+    
+    /**
      * Save a file
      * 
      * @covers ::setRootDirectory
@@ -91,13 +122,13 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     public function testSaveFile()
     {
         
-        // Clear test file
-        if (\file_exists('/tmp/test.txt')) {
-            \unlink('/tmp/test.txt');
-        }
-        
         // Set root directory
         $this->instance->setRootDirectory('/tmp');
+        
+        // Clear test file
+        if ($this->instance->fileExists('test.txt')) {
+            $this->instance->remove('test.txt');
+        }
         
         // When a file is saved an instance of the file handler is returned
         $this->assertInstanceOf(
@@ -106,10 +137,10 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         );
         
         // File should exist
-        $this->assertFileExists('/tmp/test.txt');
+        $this->assertTrue($this->instance->fileExists('test.txt'));
         
         // Get file contents
-        $contents = \file_get_contents('/tmp/test.txt', 'r');
+        $contents = $this->instance->getFileContents('test.txt');
         
         // Saved file data should match
         $this->assertEquals('Test data', $contents);
@@ -125,18 +156,18 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     public function testSaveFileInDirectory()
     {
         
+        // Set root directory
+        $this->instance->setRootDirectory('/tmp');
+        
         // Clear test file
-        if (\file_exists('/tmp/dir/test.txt')) {
-            \unlink('/tmp/dir/test.txt');
+        if ($this->instance->fileExists('dir/test.txt')) {
+            $this->instance->remove('dir/test.txt');
         }
         
         // Create test dir when it does not exist
-        if (!\is_dir('/tmp/dir')) {
-            \mkdir('/tmp/dir');
+        if (!$this->instance->fileExists('dir')) {
+            $this->instance->createDirectory('dir');
         }
-        
-        // Set root directory
-        $this->instance->setRootDirectory('/tmp');
         
         // When a file is saved an instance of the file handler is returned
         $this->assertInstanceOf(
@@ -155,18 +186,13 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     public function testSaveFileInNotExistingDirectory()
     {
         
-        // Clear test file
-        if (\file_exists('/tmp/dir/test.txt')) {
-            \unlink('/tmp/dir/test.txt');
-        }
-        
-        // Remove test dir when it exists
-        if (\is_dir('/tmp/dir')) {
-            \rmdir('/tmp/dir');
-        }
-        
         // Set root directory
         $this->instance->setRootDirectory('/tmp');
+        
+        // Clear test dir/file
+        if ($this->instance->fileExists('dir/test.txt')) {
+            $this->instance->remove('dir');
+        }
         
         // When a file is saved an instance of the file handler is returned
         $this->assertInstanceOf(
@@ -188,6 +214,11 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         // Set root directory
         $this->instance->setRootDirectory('/tmp');
         
+        // Clear test dir
+        if ($this->instance->fileExists('the')) {
+            $this->instance->remove('the');
+        }
+        
         // Save contents into parent of root, this ought to be canonicalized
         $this->instance->saveContents(
             'Test data',
@@ -195,9 +226,9 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         );
         
         // File should exist with the following path
-        $this->assertFileExists('/tmp/the/test/test.txt');
-        
-        
+        $this->assertTrue(
+            $this->instance->fileExists('the/test/test.txt')
+        );
         
     }
     
@@ -235,10 +266,12 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->instance->saveContents('Test', 'test.txt');
         
         // File should exist
-        $this->assertFileExists('/tmp/test.txt');
+        $this->assertTrue(
+            $this->instance->fileExists('test.txt')
+        );
         
         // Get file contents
-        $contents = \file_get_contents('/tmp/test.txt', 'r');
+        $contents = $this->instance->getFileContents('test.txt');
         
         // Saved file data should match the contents of the second save
         $this->assertEquals('Test', $contents);

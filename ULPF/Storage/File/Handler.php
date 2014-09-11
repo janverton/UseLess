@@ -56,6 +56,26 @@ class Handler
     }
     
     /**
+     * Creates a directory relative to the current root
+     * 
+     * @param string $directoryName Directory name to be created
+     * @return Handler Implements fluent interface
+     */
+    public function createDirectory($directoryName)
+    {
+        
+        // Get directory path
+        $directory = $this->getRealFilePath($directoryName);
+        
+        // Assert directory is available
+        $this->assertDirectory($directory, false);
+        
+        // Implement fluent interface
+        return $this;
+        
+    }
+    
+    /**
      * Save contents to a file
      * 
      * @param string $content  File content to save
@@ -294,21 +314,28 @@ class Handler
     /**
      * Assert the path to the given directory exists
      * 
-     * @param string $path Directory path
+     * @param string $path               Directory path
+     * @param bool   $removeLastPathPart Remove part after the last '/'
      * @return boolean
      */
-    protected function assertDirectory($path)
+    protected function assertDirectory($path, $removeLastPathPart = true)
     {
         
-        // Get directory path
-        $directoryPath = \substr(
-            $path,
-            0,
-            \strrpos($path, \DIRECTORY_SEPARATOR, -2)
-        );
+        // Check whether last dir/file path part needs to be removed
+        if ($removeLastPathPart) {
+            // Remove last path part
+            
+            // Set path
+            $path = \substr(
+                $path,
+                0,
+                \strrpos($path, \DIRECTORY_SEPARATOR, -2)
+            );
+        
+        }
         
         // Check whether the directory exists
-        if (\is_dir($directoryPath)) {
+        if (\is_dir($path)) {
             // Directory exists
             
             // Return
@@ -316,10 +343,10 @@ class Handler
         }
         
         // Assert parent directory exists
-        $this->assertDirectory($directoryPath);
+        $this->assertDirectory($path);
 
         // Create directory
-        return \mkdir($directoryPath);
+        return \mkdir($path);
          
     }
     
