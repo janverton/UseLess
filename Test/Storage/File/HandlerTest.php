@@ -4,13 +4,15 @@
 namespace ULPFTest\Storage\File;
 
 // Includes
-require_once __DIR__ . '/../../../Storage/File/Handler.php';
-require_once __DIR__ . '/../../../Storage/File/Exception.php';
+require_once __DIR__ . '/../../../ULPF/Storage/File/Handler.php';
+require_once __DIR__ . '/../../../ULPF/Storage/File/Exception.php';
 
 /**
  * File storage test class
  * 
- * @coversDefaultClass ULPF\Storage\File\Handler
+ * @uses \ULPF\Storage\File\Handler::getRealFilePath
+ * 
+ * @coversDefaultClass \ULPF\Storage\File\Handler
  * @covers ::<protected>
  */
 class HandlerTest extends \PHPUnit_Framework_TestCase
@@ -85,6 +87,10 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Create a directory
      * 
+     * @uses \ULPF\Storage\File\Handler::setRootDirectory
+     * @uses \ULPF\Storage\File\Handler::fileExists
+     * @uses \ULPF\Storage\File\Handler::remove
+     * 
      * @covers ::createDirectory
      */
     public function testCreateDirectory()
@@ -116,7 +122,11 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Save a file
      * 
-     * @covers ::setRootDirectory
+     * @uses \ULPF\Storage\File\Handler::setRootDirectory
+     * @uses \ULPF\Storage\File\Handler::fileExists
+     * @uses \ULPF\Storage\File\Handler::remove
+     * @uses \ULPF\Storage\File\Handler::getFileContents
+     * 
      * @covers ::saveContents
      */
     public function testSaveFile()
@@ -150,7 +160,10 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Save file in a directory
      * 
-     * @covers ::setRootDirectory
+     * @uses \ULPF\Storage\File\Handler::setRootDirectory
+     * @uses \ULPF\Storage\File\Handler::fileExists
+     * @uses \ULPF\Storage\File\Handler::remove
+     * 
      * @covers ::saveContents
      */
     public function testSaveFileInDirectory()
@@ -180,7 +193,10 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Save file in a not existing directory. The directory will be created
      * 
-     * @covers ::setRootDirectory
+     * @uses \ULPF\Storage\File\Handler::setRootDirectory
+     * @uses \ULPF\Storage\File\Handler::fileExists
+     * @uses \ULPF\Storage\File\Handler::remove
+     * 
      * @covers ::saveContents
      */
     public function testSaveFileInNotExistingDirectory()
@@ -205,7 +221,10 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Saving a file above the root directory is not allowed
      * 
-     * @covers ::setRootDirectory
+     * @uses \ULPF\Storage\File\Handler::setRootDirectory
+     * @uses \ULPF\Storage\File\Handler::fileExists
+     * @uses \ULPF\Storage\File\Handler::remove
+     * 
      * @covers ::saveContents
      */
     public function testSaveFileInParentOfRoot()
@@ -251,6 +270,10 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Overwrite file data
      * 
+     * @uses \ULPF\Storage\File\Handler::setRootDirectory
+     * @uses \ULPF\Storage\File\Handler::fileExists
+     * @uses \ULPF\Storage\File\Handler::getFileContents
+     * 
      * @covers ::saveContents
      */
     public function testOverwriteFile()
@@ -281,6 +304,9 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Remove a file
      * 
+     * @uses \ULPF\Storage\File\Handler::setRootDirectory
+     * @uses \ULPF\Storage\File\Handler::saveContents
+     * 
      * @covers ::remove
      */
     public function testRemoveFile()
@@ -306,6 +332,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Try to remove a not existing file
      * 
+     * @uses \ULPF\Storage\File\Handler::setRootDirectory
+     * 
      * @covers ::remove
      * @covers \ULPF\Storage\File\Exception
      * @expectedException \ULPF\Storage\File\Exception
@@ -325,6 +353,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Try to remove a not existing file
      * 
+     * @uses \ULPF\Storage\File\Handler::setRootDirectory
+     * 
      * @covers ::remove
      * @covers \ULPF\Storage\File\Exception
      * @expectedException \ULPF\Storage\File\Exception
@@ -343,6 +373,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     
     /**
      * Remove a directory
+     * 
+     * @uses \ULPF\Storage\File\Handler::setRootDirectory
      * 
      * @covers ::remove
      */
@@ -368,6 +400,9 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Remove a directory with contents
      * 
+     * @uses \ULPF\Storage\File\Handler::setRootDirectory
+     * @uses \ULPF\Storage\File\Handler::saveContents
+     * 
      * @covers ::remove
      */
     public function testRemoveDirectoryWithContents()
@@ -390,6 +425,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Remove a directory which does not exist
      * 
+     * @uses \ULPF\Storage\File\Handler::setRootDirectory
+     * 
      * @covers ::remove
      * @covers \ULPF\Storage\File\Exception
      * @expectedException \ULPF\Storage\File\Exception
@@ -409,7 +446,12 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for file existance
      * 
+     * @uses \ULPF\Storage\File\Handler::setRootDirectory
+     * @uses \ULPF\Storage\File\Handler::saveContents
+     * @uses \ULPF\Storage\File\Handler::remove
+     * 
      * @covers ::fileExists
+     * @covers ::getRealFilePath
      */
     public function testFileExists()
     {
@@ -434,6 +476,9 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Get contents of a file located in this file storage component
      * 
+     * @uses \ULPF\Storage\File\Handler::setRootDirectory
+     * @uses \ULPF\Storage\File\Handler::saveContents
+     * 
      * @covers ::getFileContents
      */
     public function testGetFileContents()
@@ -455,6 +500,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     
     /**
      * Try to get contents from a not existing file
+     * 
+     * @uses \ULPF\Storage\File\Handler::setRootDirectory
      * 
      * @covers ::getFileContents
      * @expectedException \ULPF\Storage\File\Exception

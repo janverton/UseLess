@@ -4,8 +4,8 @@
 namespace ULPFTest\Bootstrap;
 
 // Includes
-require_once __DIR__ . '/../../../Bootstrap/Configuration.php';
-require_once __DIR__ . '/../../../Bootstrap/Exception.php';
+require_once __DIR__ . '/../../../ULPF/Bootstrap/Configuration.php';
+require_once __DIR__ . '/../../../ULPF/Bootstrap/Exception.php';
 
 /**
  * Configuration test class
@@ -54,6 +54,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * Retrieve a value from the configuration
      * 
+     * @covers ::__construct
      * @covers ::get
      */
     public function testGetConfigurationValue()
@@ -72,6 +73,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * Retrieve a not existing value from the configuration
      * 
+     * @covers ::__construct
      * @covers ::get
      */
     public function testGetUnavailableConfigurationValue()

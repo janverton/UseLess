@@ -4,8 +4,8 @@
 namespace ULPFTest\Bootstrap;
 
 // Includes
-require_once __DIR__ . '/../../../Bootstrap/Autoload.php';
-require_once __DIR__ . '/../../../Bootstrap/Exception.php';
+require_once __DIR__ . '/../../../ULPF/Bootstrap/Autoload.php';
+require_once __DIR__ . '/../../../ULPF/Bootstrap/Exception.php';
 
 /**
  * Autoload test class
@@ -65,6 +65,7 @@ class AutoloadTest extends \PHPUnit_Framework_TestCase
      * Try to load a not existing class
      * 
      * @covers ::__construct
+     * @covers ::__destruct
      */
     public function testAutoloadNotExistingClass()
     {
@@ -73,7 +74,7 @@ class AutoloadTest extends \PHPUnit_Framework_TestCase
         $this->instance = new \ULPF\Bootstrap\Autoload(__DIR__);
         
         // Get not existing class
-        $this->assertFalse(class_exists('\ClassDoesNotExist'));
+        $this->assertFalse(\class_exists('\ClassDoesNotExist'));
         
     }
     

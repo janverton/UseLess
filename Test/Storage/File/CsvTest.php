@@ -4,14 +4,16 @@
 namespace ULPFTest\Storage\File;
 
 // Includes
-require_once __DIR__ . '/../../../Storage/File/Csv.php';
-require_once __DIR__ . '/../../../Storage/File/Handler.php';
-require_once __DIR__ . '/../../../Storage/File/Exception.php';
+require_once __DIR__ . '/../../../ULPF/Storage/File/Csv.php';
+require_once __DIR__ . '/../../../ULPF/Storage/File/Handler.php';
+require_once __DIR__ . '/../../../ULPF/Storage/File/Exception.php';
 
 /**
  * Csv file test class
  * 
- * @coversDefaultClass ULPF\Storage\File\Csv
+ * @uses \ULPF\Storage\File\Handler
+ * 
+ * @coversDefaultClass \ULPF\Storage\File\Csv
  * @covers ::<protected>
  */
 class CsvTest extends \PHPUnit_Framework_TestCase

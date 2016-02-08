@@ -1,7 +1,7 @@
 <?php
 
 // Include framework
-include __DIR__ . '/../UseLess.php';
+include __DIR__ . '/../ULPF/UseLess.php';
 
 /**
  * UseLess Framework test class
